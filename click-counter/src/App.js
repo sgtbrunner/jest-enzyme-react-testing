@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
 
 const initialCount = 0;
 
@@ -7,22 +7,31 @@ const App = () => {
   const [count, setCount] = useState(initialCount);
 
   return (
-    <div className="App">
-      <h1>
-        The counter is currently&nbsp; 
+    <div data-test-id="component-app" className="App">
+      <h1 data-test-id="counter-display">
+        The counter is currently&nbsp;
         <span>{count}</span>
       </h1>
-      <button onClick={() => setCount(count + 1)}>
+      <button
+        data-test-id="increment-button"
+        onClick={() => setCount(count + 1)}
+      >
         Increment counter
       </button>
-      <button onClick={() => setCount(count - 1)}>
+      <button 
+        data-test-id="decrement-button" 
+        onClick={() => setCount(count - 1)}
+      >
         Decrement counter
       </button>
-      <button onClick={() => setCount(initialCount)}>
+      <button
+        data-test-id="reset-button"
+        onClick={() => setCount(initialCount)}
+      >
         Reset counter
       </button>
     </div>
   );
-}
+};
 
 export default App;
