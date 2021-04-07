@@ -19,8 +19,8 @@ const App = () => {
 
   const resetCounter = () => {
     setCount(initialCount);
-    if (error) setError(false)
-  }
+    if (error) setError(false);
+  };
 
   return (
     <div data-test-id="component-app" className="app">
@@ -34,16 +34,15 @@ const App = () => {
       <button data-test-id="decrement-button" onClick={decrementCounter}>
         Decrement counter
       </button>
-      <button
-        data-test-id="reset-button"
-        onClick={resetCounter}
-      >
+      <button data-test-id="reset-button" onClick={resetCounter}>
         Reset counter
       </button>
-      {error && (
-        <p data-test-id="error-message" className="error">
-          The counter cannot go below 0
-        </p>
+      <p
+        data-test-id="error-message"
+        className={`error ${error ? "" : "hidden"}`}
+      >
+        The counter cannot go below 0
+      </p>
       )}
     </div>
   );
