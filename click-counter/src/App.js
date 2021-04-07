@@ -10,7 +10,7 @@ const App = () => {
     <div data-test-id="component-app" className="App">
       <h1 data-test-id="counter-display">
         The counter is currently&nbsp;
-        <span>{count}</span>
+        <span data-test-id="counter">{count}</span>
       </h1>
       <button
         data-test-id="increment-button"
