@@ -12,7 +12,7 @@ const defaultProps = {
 const setup = (props = {}) =>
   shallow(<GuessedWords {...defaultProps} {...props} />);
 
-test("does not throw error with unexpected props", () => {
+test("does not throw error with expected props", () => {
   const propWarning = checkProps(GuessedWords, defaultProps);
   expect(propWarning).toBeUndefined();
 });
