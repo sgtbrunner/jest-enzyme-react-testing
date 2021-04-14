@@ -1,9 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Input = ({ secretWord }) => {
+const Input = ({ success, secretWord }) => {
   const [currentGuess, setCurrentGuess] = React.useState("");
-  return (
+  return success ? (
+    <div data-test-id="input-component" />
+  ) : (
     <div data-test-id="input-component">
       <form className="form-inline">
         <input
@@ -14,7 +16,14 @@ const Input = ({ secretWord }) => {
           value={currentGuess}
           onChange={(event) => setCurrentGuess(event.target.value)}
         />
-        <button data-test-id="submit-button" className="btn btn-primary mb-2">
+        <button
+          data-test-id="submit-button"
+          className="btn btn-primary mb-2"
+          onClick={(event) => {
+            event.preventDefault();
+            setCurrentGuess("");
+          }}
+        >
           Submit
         </button>
       </form>
