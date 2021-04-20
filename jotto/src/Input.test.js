@@ -1,33 +1,40 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { mount } from "enzyme";
+import { Provider } from "react-redux";
 
-import { checkProps, findByTestAttr } from "../test/testUtils";
+import { checkProps, findByTestAttr, storeFactory } from "../test/testUtils";
 
 import Input from "./Input";
 
 const defaultProps = {
   secretWord: "test",
-  success: false,
 };
 
-const setup = (props = {}) => shallow(<Input {...defaultProps} {...props} />);
+const setup = (initialState = {}) => {
+  const store = storeFactory(initialState);
+  return mount(
+    <Provider store={store}>
+      <Input {...defaultProps} />
+    </Provider>
+  );
+};
 
-describe('props validation', ()=> {
+describe("props validation", () => {
   test("does not throw error with expected props", () => {
     const propWarning = checkProps(Input, defaultProps);
     expect(propWarning).toBeUndefined();
   });
-  
+
   test("throws error with unexpected props", () => {
     const propWarning = checkProps(Input, { secretWord: 12345 });
     expect(propWarning).toBeDefined();
   });
 });
 
-describe('render', () => {
-  describe('success is true', () => {
+describe("render", () => {
+  describe("success is true", () => {
     let wrapper;
-    beforeEach(() => wrapper = setup({success: true}));
+    beforeEach(() => (wrapper = setup({ success: true })));
 
     test("renders withour error", () => {
       const component = findByTestAttr(wrapper, "input-component");
@@ -45,9 +52,9 @@ describe('render', () => {
     });
   });
 
-  describe('success is false', () => {
+  describe("success is false", () => {
     let wrapper;
-    beforeEach(() => wrapper = setup({success: false}));
+    beforeEach(() => (wrapper = setup({ success: false })));
 
     test("renders withour error", () => {
       const component = findByTestAttr(wrapper, "input-component");
@@ -75,7 +82,7 @@ describe("state controlled input field", () => {
     mockSetCurrentGuess.mockClear();
     originalUseState = React.useState;
     React.useState = jest.fn(() => ["", mockSetCurrentGuess]);
-    wrapper = setup();
+    wrapper = setup({ success: false });
   });
 
   afterEach(() => {
@@ -92,7 +99,7 @@ describe("state controlled input field", () => {
 
   test("field is clicked upon submit button click", () => {
     const submitButton = findByTestAttr(wrapper, "submit-button");
-    submitButton.simulate("click", { preventDefault() {}});
+    submitButton.simulate("click", { preventDefault() {} });
 
     expect(mockSetCurrentGuess).toHaveBeenCalledWith("");
   });

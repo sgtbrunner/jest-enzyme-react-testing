@@ -1,11 +1,19 @@
 import { mount } from "enzyme";
-import { findByTestAttr } from "../test/testUtils";
+import { findByTestAttr, storeFactory } from "../test/testUtils";
 import App from "./App";
-import { getSecretWord as mockGetSecretWord } from './actions';
+import { getSecretWord as mockGetSecretWord } from "./actions";
+import { Provider } from "react-redux";
 
-jest.mock('./actions');
+jest.mock("./actions");
 
-const setup = () => mount(<App />);
+const setup = () => {
+  const store = storeFactory();
+  return mount(
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+};
 
 test("renders without error", () => {
   const wrapper = setup();
@@ -18,16 +26,16 @@ describe("get secret word", () => {
     mockGetSecretWord.mockClear();
   });
 
-  test('getSecretWord on app mount', () => {
+  test("getSecretWord on app mount", () => {
     setup();
     expect(mockGetSecretWord).toHaveBeenCalledTimes(1);
   });
 
-  test('getSecretWord does not run on app update', () => {
+  test("getSecretWord does not run on app update", () => {
     const wrapper = setup();
     mockGetSecretWord.mockClear();
 
     wrapper.setProps();
     expect(mockGetSecretWord).toHaveBeenCalledTimes(0);
-  })
+  });
 });

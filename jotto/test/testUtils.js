@@ -1,10 +1,14 @@
-import checkPropTypes from 'check-prop-types';
+import checkPropTypes from "check-prop-types";
+import { applyMiddleware, createStore } from "redux";
 
-export const findByTestAttr = (wrapper, attribute) => wrapper.find(`[data-test-id="${attribute}"]`);
+import rootReducer from "../src/reducers";
+import { middlewares } from "../src/configureStore";
 
-export const checkProps = (component, conformingProps) => checkPropTypes(
-    component.propTypes,
-    conformingProps,
-    'props',
-    component.name
-);
+export const storeFactory = (initialState) =>
+  createStore(rootReducer, initialState, applyMiddleware(...middlewares));
+
+export const findByTestAttr = (wrapper, attribute) =>
+  wrapper.find(`[data-test-id="${attribute}"]`);
+
+export const checkProps = (component, conformingProps) =>
+  checkPropTypes(component.propTypes, conformingProps, "props", component.name);
