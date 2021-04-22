@@ -1,22 +1,27 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import "./App.css";
 
 import Congrats from "./Congrats";
-import Input from "./Input";
 import GuessedWords from "./GuessedWords";
+import Input from "./Input";
 import { getSecretWord } from "./actions";
 
 function App() {
-  // TODO: get props from shared state
-  const success = false;
-  const secretWord = "party";
-  const guessedWords = [];
+  const success = useSelector((state) => state.success);
+  const guessedWords = useSelector((state) => state.guessedWords);
+  const secretWord = useSelector((state) => state.secretWord);
+
+  // so that we can dispatch an action
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    getSecretWord();
+    // get the secret word
+    dispatch(getSecretWord());
   }, []);
 
   return (
-    <div className="container" data-test-id="app-component">
+    <div data-test="component-app" className="container">
       <h1>Jotto</h1>
       <Congrats success={success} />
       <Input success={success} secretWord={secretWord} />

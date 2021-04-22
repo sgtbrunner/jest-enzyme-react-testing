@@ -1,37 +1,40 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const GuessedWords = ({ guessedWords }) => {
-  let content;
-  if (guessedWords.length === 0) {
-    content = (
-      <span data-test-id="guess-instructions">
+const GuessedWords = (props) => {
+  let contents
+  if (props.guessedWords.length === 0) {
+    contents = (
+      <span data-test="guess-instructions">
         Try to guess the secret word!
       </span>
     );
   } else {
-    const guessedWordsRows = guessedWords.map((word, index) => (
-      <tr data-test-id="guessed-word" key={index}>
-        <td>{word.guessedWord}</td>
-        <td>{word.letterMatchCount}</td>
+    const guessedWordsRows = props.guessedWords.map((word, index) => (
+      <tr data-test="guessed-word" key={ index }>
+        <td>{ word.guessedWord }</td>
+        <td>{ word.letterMatchCount }</td>
       </tr>
     ));
-    content = (
-      <div data-test-id="guessed-words">
+    contents = (
+      <div data-test="guessed-words">
         <h3>Guessed Words</h3>
         <table className="table table-sm">
           <thead className="thead-light">
-            <tr>
-              <th>Guess</th>
-              <th>Matching Letters</th>
-            </tr>
+            <tr><th>Guess</th><th>Matching Letters</th></tr>
           </thead>
-          <tbody>{guessedWordsRows}</tbody>
+          <tbody>
+            { guessedWordsRows }
+          </tbody>
         </table>
       </div>
     );
   }
-  return <div data-test-id="component-guessed-words">{content}</div>;
+  return (
+    <div data-test="component-guessed-words">
+      { contents }
+    </div>
+  );
 };
 
 GuessedWords.propTypes = {
